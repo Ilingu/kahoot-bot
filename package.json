@@ -1,5 +1,6 @@
 {
   "name": "kahootbot",
+  "private": true,
   "version": "2.0.0-beta",
   "description": "A simple Kahoot Bot that answer randomly",
   "author": "Ilingu",
@@ -8,7 +9,8 @@
     "kahoot",
     "bot",
     "puppeteer",
-    "fastify"
+    "fastify",
+    "TypeScript"
   ],
   "main": "build/app.js",
   "repository": {

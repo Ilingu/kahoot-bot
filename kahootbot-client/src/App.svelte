@@ -1,65 +1,64 @@
 <script lang="ts">
-  import logo from './assets/svelte.png'
-  import Counter from './lib/Counter.svelte'
+  import { onMount } from "svelte";
+  import { SvelteToast } from "@zerodevx/svelte-toast";
+  import "./Assets/CSS/index.css";
+  import { PushToast } from "./lib/utils";
+
+  let InputGameID: HTMLInputElement;
+  onMount(() => {
+    InputGameID?.focus();
+  });
+
+  const ConnectToKahoot = async () => {
+    // PushToast("Works", "error", 10000);
+  };
 </script>
 
-<main>
-  <img src={logo} alt="Svelte Logo" />
-  <h1>Hello Typescript!</h1>
+<main class="flex justify-center items-center flex-col w-screen h-screen">
+  <header class="flex justify-center items-center gap-x-4">
+    <img
+      src="/IMG/logo-kahootbot-128.webp"
+      alt="Website Logo"
+      class="rounded-md w-16"
+    />
+    <h1
+      class="text-purple-500 text-5xl font-bold hover:text-purple-400 transition-all"
+    >
+      Kahoot BOT
+    </h1>
+  </header>
 
-  <Counter />
-
-  <p>
-    Visit <a href="https://svelte.dev">svelte.dev</a> to learn how to build Svelte
-    apps.
-  </p>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme">SvelteKit</a> for
-    the officially supported framework, also powered by Vite!
-  </p>
+  <section class="w-full mt-16">
+    <h3 class="text-center mb-3 text-purple-300 font-semibold">
+      Enter The Game PIN and your username ✨
+    </h3>
+    <form
+      on:submit|preventDefault={ConnectToKahoot}
+      class="flex flex-col justify-center items-center gap-y-5"
+    >
+      <input
+        type="tel"
+        bind:this={InputGameID}
+        placeholder="xxx-xxxx"
+        class="text-center bg-indigo-400 outline-none focus:ring-[3px] focus:ring-purple-900 transition-all rounded h-10 text-gray-900 lg:w-1/2 w-3/4 font-semibold text-xl"
+      />
+      <input
+        type="text"
+        placeholder="Ilingu"
+        class="text-center bg-indigo-400 outline-none focus:ring-[3px] focus:ring-purple-900 transition-all rounded h-10 text-gray-900 lg:w-1/2 w-3/4 font-semibold text-xl"
+      />
+      <button
+        type="submit"
+        class="bg-indigo-800 outline-none focus:ring-1 focus:ring-purple-300 px-8 py-[0.375rem] text-lg text-white font-semibold rounded-md hover:scale-105 hover:bg-indigo-700 transition-all"
+        >Connect 🪄</button
+      >
+    </form>
+  </section>
+  <SvelteToast />
 </main>
 
 <style>
-  :root {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  }
-
-  main {
-    text-align: center;
-    padding: 1em;
-    margin: 0 auto;
-  }
-
-  img {
-    height: 16rem;
-    width: 16rem;
-  }
-
-  h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 4rem;
-    font-weight: 100;
-    line-height: 1.1;
-    margin: 2rem auto;
-    max-width: 14rem;
-  }
-
-  p {
-    max-width: 14rem;
-    margin: 1rem auto;
-    line-height: 1.35;
-  }
-
-  @media (min-width: 480px) {
-    h1 {
-      max-width: none;
-    }
-
-    p {
-      max-width: none;
-    }
+  input::placeholder {
+    color: rgb(17 24 39);
   }
 </style>
