@@ -63,15 +63,22 @@ const WatchDogGame = (page: puppeteer.Page): Promise<FunctionJob> => {
         if (page.url() !== KahootStep.ANSWER_CHOOSE)
           return res({ success: false });
 
-        // Choose answer randomly
-        await page.click(`[data-functional-selector="answer-0"]`, {
-          delay: 300,
-        });
+        try {
+          // Choose answer randomly
+          const Answer1BtnSelector = `[data-functional-selector="answer-0"]`;
+          await page.click(Answer1BtnSelector, { delay: 250 });
+          // If Question was a multi-select
+          const MultiBtnSelector = `[data-functional-selector="multi-select-submit-button"]`;
+          await page.click(MultiBtnSelector, { delay: 100 });
+        } catch (err) {}
+
         console.log("[LOG]: Answer Chose...", page.url());
-        console.log("[LOG]: Waiting for Result...");
-        await page.waitForNavigation({ timeout: 30_000 }); // Wait for "/answer/result" (30s)
-        if (page.url() !== KahootStep.ANSWER_RESULT)
-          return res({ success: false });
+        if (page.url() !== KahootStep.ANSWER_RESULT) {
+          console.log("[LOG]: Waiting for Result...");
+          await page.waitForNavigation({ timeout: 30_000 }); // Wait for "/answer/result" (30s)
+          if (page.url() !== KahootStep.ANSWER_RESULT)
+            return res({ success: false });
+        } else console.log("[LOG]: Question Skipped...");
 
         console.log("[LOG]: Waiting Next Question...", page.url());
         await page.waitForNavigation({ timeout: 300_000 }); // Wait next question (5min)
