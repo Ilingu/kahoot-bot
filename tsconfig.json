@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "removeComments": true,
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "allowJs": true,
+    "module": "commonjs",
+    "sourceMap": true,
+    "paths": {
+      "*": ["src/*"]
+    }
+  },
+  "include": ["./src/**/*.ts"],
+  "exclude": ["node_modules"],
+  "extends": "@tsconfig/node16-strictest-esm/tsconfig.json"
+}
