@@ -1,19 +1,33 @@
 import fastify from "fastify";
-import { PORT } from "./utils/globals";
+import cors from "@fastify/cors";
+import { Server } from "socket.io";
+import { WEB_PORT, WS_PORT } from "./lib/globals";
 // Routes
 import RoutesHandler from "./routes/NewGame";
+import { NewWSConn } from "./lib/WebSockets";
+// Log
+import { log, logError } from "./lib/Utils/utils";
 
-const server = fastify({ requestTimeout: 1800000 }); // 30min/req
+const server = fastify(); // { requestTimeout: 1800000 } --> 30min/req, don't need it anymore since it run into bg with WS
 
-server.register(RoutesHandler);
-server.get("/ping", async () => {
-  return "pong\n";
-});
+server.register(cors, {
+  origin: "*",
+  methods: ["GET", "POST"],
+}); // cors
+server.register(RoutesHandler); // Routes
 
-server.listen(PORT, (err, address) => {
+// Web Server
+server.listen(WEB_PORT, (err, address) => {
   if (err) {
-    console.error(err);
+    logError(err);
     process.exit(1);
   }
-  console.log(`Server listening at ${address}`);
+  log(`Server listening at ${address}`);
 });
+
+// Websocket server
+const io = new Server(WS_PORT, {
+  cors: { origin: "*" },
+});
+
+io.on("connection", NewWSConn);

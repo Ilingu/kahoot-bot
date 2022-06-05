@@ -1,16 +1,18 @@
 import type { FastifyInstance, FastifyReply } from "fastify";
-import type { BasicObject } from "../utils/interfaces/types";
+import type { BasicObject } from "../lib/interfaces/types";
 
-import HTTP from "../utils/interfaces/HttpStatusCode";
-import { Reply } from "../utils/ServerUtils";
-import { LauchBotGame } from "../utils/KahootUtils";
-import { EmptyContent } from "../utils/utils";
+import HTTP from "../lib/interfaces/HttpStatusCode";
+import { Reply } from "../lib/Utils/ServerUtils";
+import { EmptyContent } from "../lib/Utils/utils";
+import { InitBotWS } from "../lib/WebSockets";
 
 export default async function routes(fastify: FastifyInstance) {
   const BadArgs = (res: FastifyReply, msg?: string) =>
-    Reply(res, false, { msg: `Bad ${msg || "Args"}` }, HTTP.BAD_REQUEST); // ❌
-  const GameError = (res: FastifyReply) =>
-    Reply(res, false, { msg: `Cannot Connect To Game` }, HTTP.BAD_GATEWAY); // ❌
+    Reply(res, false, { msg: `Bad ${msg || "Args"}` }, HTTP.BAD_REQUEST); //
+
+  fastify.get("/ping", async () => {
+    return "pong\n";
+  });
 
   fastify.post("/newgame/:gameid", async (req, res) => {
     const { params, body } = req;
@@ -24,9 +26,7 @@ export default async function routes(fastify: FastifyInstance) {
     const Username = Body["username"];
     if (EmptyContent(Username)) return BadArgs(res, "username"); // ❌
 
-    const { success } = await LauchBotGame(GameID, Username);
-    if (!success) return GameError(res);
-
+    InitBotWS(GameID, Username); // Run in Background with WebSocket
     return Reply(res, true);
   });
 }

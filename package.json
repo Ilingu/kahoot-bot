@@ -1,6 +1,6 @@
 {
   "name": "kahootbot",
-  "version": "1.0.0-beta",
+  "version": "2.0.0-beta",
   "description": "A simple Kahoot Bot that answer randomly",
   "author": "Ilingu",
   "license": "MIT",
@@ -21,8 +21,10 @@
     "dev": "tsc-watch --project . --onSuccess \"nodemon ./dist/app.js\" --onFailure \"nodemon ./dist/app.js\""
   },
   "dependencies": {
+    "@fastify/cors": "^7.0.0",
     "fastify": "^3.29.0",
-    "puppeteer": "^14.2.1"
+    "puppeteer": "^14.2.1",
+    "socket.io": "^4.5.1"
   },
   "devDependencies": {
     "@tsconfig/node16-strictest-esm": "^1.0.1",
