@@ -4,7 +4,7 @@
 
 ## Purpose:
 
-To not play this **shitty game** anymore in class ╰（‵□′）╯
+To not play this **shitty game** in class anymore ╰（‵□′）╯
 
 ## Made With:
 
