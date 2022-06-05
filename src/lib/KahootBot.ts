@@ -20,7 +20,10 @@ export const LauchKahootBot = async (
     if (!connected || !page) return { success: false };
 
     /* Listening to Game Change */
-    const { success: GameFinishedSuccessfully } = await WatchDogGame(page);
+    const { success: GameFinishedSuccessfully } = await WatchDogGame(
+      page,
+      GameID
+    );
     if (!GameFinishedSuccessfully) return { success: false };
 
     /* Game Finished: Quit */
@@ -33,18 +36,21 @@ export const LauchKahootBot = async (
 };
 
 /* HELPERS */
-const WatchDogGame = (page: puppeteer.Page): Promise<FunctionJob> => {
+const WatchDogGame = (
+  page: puppeteer.Page,
+  GameID: string
+): Promise<FunctionJob> => {
   return new Promise(async (res) => {
     try {
-      logBot("[LOG]: Waiting for game to start...");
+      logBot("[LOG]: Waiting for game to start...", GameID);
       await page.waitForNavigation({ timeout: 300_000 }); // Wait 5min for change, if no: quit
       if (page.url() !== KahootStep.STARTING) return res({ success: false });
-      logBot("[LOG]: Waiting first question...");
+      logBot("[LOG]: Waiting first question...", GameID);
       await page.waitForNavigation({ timeout: 15_000 }); // Wait for 1st question (15s)
 
       const NewQuestion = async () => {
         if (page.url() !== KahootStep.GET_READY) return res({ success: false });
-        logBot(`[LOG]: Waiting answer options... ${page.url()}`);
+        logBot(`[LOG]: Waiting answer options... ${page.url()}`, GameID);
 
         await page.waitForNavigation({ timeout: 10_000 }); // Wait for question's answers to display (10s)
         if (page.url() !== KahootStep.ANSWER_CHOOSE)
@@ -59,20 +65,20 @@ const WatchDogGame = (page: puppeteer.Page): Promise<FunctionJob> => {
           await page.click(MultiBtnSelector, { delay: 100 });
         } catch (err) {}
 
-        logBot(`[LOG]: Answer Chose...  ${page.url()}`);
+        logBot(`[LOG]: Answer Chose...  ${page.url()}`, GameID);
         if (page.url() !== KahootStep.ANSWER_RESULT) {
-          logBot("[LOG]: Waiting for Result...");
+          logBot("[LOG]: Waiting for Result...", GameID);
           await page.waitForNavigation({ timeout: 30_000 }); // Wait for "/answer/result" (30s)
           if (page.url() !== KahootStep.ANSWER_RESULT)
             return res({ success: false });
         } else logWarn("[LOG]: Question Skipped...");
 
-        logBot(`[LOG]: Waiting Next Question... ${page.url()}`);
+        logBot(`[LOG]: Waiting Next Question... ${page.url()}`, GameID);
         await page.waitForNavigation({ timeout: 300_000 }); // Wait next question (5min)
 
         // No More Question --> Quit
         if (page.url() === KahootStep.RANKING_PAGE) {
-          logBot("[LOG]: Kahoot finished, disconnecting from game...");
+          logBot("[LOG]: Kahoot finished, disconnecting from game...", GameID);
           return res({ success: true });
         }
 
@@ -135,7 +141,7 @@ const ConnectToGame = async (
     await page.click(`[data-functional-selector="join-button-username"]`);
     await page.waitForNavigation({ timeout: 2000 });
 
-    log(`[LOG] Connected to Game: ${page.url()}`);
+    logBot(`[LOG] Connected to Game: ${page.url()}`, GameID);
     if (page.url() !== KahootStep.WAITING_PAGE) return { success: false };
 
     return { success: true, returns: page };

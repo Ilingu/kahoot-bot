@@ -3,7 +3,7 @@ import type { BasicObject } from "../lib/interfaces/types";
 
 import HTTP from "../lib/interfaces/HttpStatusCode";
 import { Reply } from "../lib/Utils/ServerUtils";
-import { EmptyContent } from "../lib/Utils/utils";
+import { EmptyContent, log } from "../lib/Utils/utils";
 import { InitBotWS } from "../lib/WebSockets";
 
 export default async function routes(fastify: FastifyInstance) {
@@ -26,6 +26,7 @@ export default async function routes(fastify: FastifyInstance) {
     const Username = Body["username"];
     if (EmptyContent(Username)) return BadArgs(res, "username"); // ❌
 
+    log(`[LOG]: New Request: Connecting to Game ${GameID}`);
     InitBotWS(GameID, Username); // Run in Background with WebSocket
     return Reply(res, true);
   });

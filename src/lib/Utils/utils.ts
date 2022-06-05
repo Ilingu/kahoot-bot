@@ -1,3 +1,4 @@
+import { SendLogs } from "../WebSockets";
 import { LogColors } from "../interfaces/enums";
 
 /**
@@ -12,7 +13,8 @@ export const log = (msg: string, color?: LogColors) => {
   console.log(color || LogColors.FgBlue, msg);
 };
 
-export const logBot = (msg: string, color?: LogColors) => {
+export const logBot = (msg: string, GameID: string, color?: LogColors) => {
+  SendLogs(GameID, `${msg.split("...")[0]}...`);
   console.log(color || LogColors.FgMagenta, msg);
 };
 

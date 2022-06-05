@@ -17,12 +17,19 @@ export const InitBotWS = async (GameID: string, Username: string) => {
   delete ClientsConn[GameID];
 };
 
+export const SendLogs = (GameID: string, msg: string) => {
+  const ResSocket = ClientsConn[GameID];
+  if (!ResSocket) return;
+  ResSocket.emit("KahootLogs", msg);
+};
+
 export const NewWSConn = (socket: Socket) => {
   let GameId = "";
 
   socket.on("GameID", (GameID: string) => {
     GameId = GameID;
     ClientsConn[GameID] = socket;
+    log(`[LOG]: New WS client: GAMEID: ${GameID}`);
   });
 
   socket.on("disconnect", () => {
