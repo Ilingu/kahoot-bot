@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  kahootbot:
+    image: ilingu/kahootbot:latest
+    ports:
+      - "3000:3000"
+      - "8080:8080"
+    deploy:
+      mode: replicated
+      replicas: 1

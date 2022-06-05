@@ -17,7 +17,7 @@ server.register(cors, {
 server.register(RoutesHandler); // Routes
 
 // Web Server
-server.listen(WEB_PORT, (err, address) => {
+server.listen(WEB_PORT, "0.0.0.0", (err, address) => {
   if (err) {
     logError(err);
     process.exit(1);
