@@ -3,7 +3,7 @@ import { PORT } from "./utils/globals";
 // Routes
 import RoutesHandler from "./routes/NewGame";
 
-const server = fastify();
+const server = fastify({ requestTimeout: 1800000 }); // 30min/req
 
 server.register(RoutesHandler);
 server.get("/ping", async () => {

@@ -3,7 +3,7 @@ import type { BasicObject } from "../utils/interfaces/types";
 
 import HTTP from "../utils/interfaces/HttpStatusCode";
 import { Reply } from "../utils/ServerUtils";
-import { ConnectToGame } from "../utils/KahootUtils";
+import { LauchBotGame } from "../utils/KahootUtils";
 import { EmptyContent } from "../utils/utils";
 
 export default async function routes(fastify: FastifyInstance) {
@@ -24,7 +24,7 @@ export default async function routes(fastify: FastifyInstance) {
     const Username = Body["username"];
     if (EmptyContent(Username)) return BadArgs(res, "username"); // ❌
 
-    const { success } = await ConnectToGame(GameID, Username);
+    const { success } = await LauchBotGame(GameID, Username);
     if (!success) return GameError(res);
 
     return Reply(res, true);
