@@ -60,3 +60,4 @@ profile*
 #Others
 /dist
 *.js.map
+/troubleshooting.md

@@ -68,7 +68,7 @@ const WatchDogGame = (
         logBot(`[LOG]: Answer Chose...  ${page.url()}`, GameID);
         if (page.url() !== KahootStep.ANSWER_RESULT) {
           logBot("[LOG]: Waiting for Result...", GameID);
-          await page.waitForNavigation({ timeout: 30_000 }); // Wait for "/answer/result" (30s)
+          await page.waitForNavigation({ timeout: 60_100 }); // Wait for "/answer/result" (1min)
           if (page.url() !== KahootStep.ANSWER_RESULT)
             return res({ success: false });
         } else logWarn("[LOG]: Question Skipped...");
@@ -157,7 +157,16 @@ const InitBrowser = async (): Promise<puppeteer.Browser | undefined> => {
     return await puppeteer.launch({
       headless: true,
       defaultViewport: null,
-      args: ["--incognito", "--no-sandbox", "--single-process", "--no-zygote"],
+      executablePath: "/usr/bin/chromium-browser",
+      args: [
+        "--incognito",
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-gpu",
+        // "--no-zygote",
+        // "--single-process",
+      ],
     });
   } catch (err) {
     logError("[No Browser]");
