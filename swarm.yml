@@ -4,7 +4,7 @@ services:
   kahootbot:
     image: ilingu/kahootbot:latest
     ports:
-      - "3000:3000"
+      - "80:80"
       - "8080:8080"
       - "443:443"
     deploy:

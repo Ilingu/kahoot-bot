@@ -10,17 +10,21 @@ import { NewWSConn } from "./lib/WebSockets";
 // Log
 import { log, logError } from "./lib/Utils/utils";
 
-const server = fastify();
-// http2: true,
-// https: {
-//   allowHTTP1: true, // fallback support for HTTP1
-//   key: fs.readFileSync(
-//     path.join(__dirname, "..", "certificates", "fastify.key")
-//   ),
-//   cert: fs.readFileSync(
-//     path.join(__dirname, "..", "certificates", "fastify.csr")
-//   ),
-// }, // { requestTimeout: 1800000 } --> 30min/req, don't need it anymore since it run into bg with WS
+const server = fastify({
+  http2: true,
+  https: {
+    allowHTTP1: true, // fallback support for HTTP1
+    key: fs.readFileSync(
+      path.join(__dirname, "..", "certificates", "privkey.pem")
+    ),
+    cert: fs.readFileSync(
+      path.join(__dirname, "..", "certificates", "fullchain.pem")
+    ),
+  },
+});
+// { requestTimeout: 1800000 } --> 30min/req, don't need it anymore since it run into bg with WS
+// CERT: /etc/letsencrypt/live/kahootbot.xyz/fullchain.pem
+// KEY: /etc/letsencrypt/live/kahootbot.xyz/privkey.pem
 
 server.register(cors, {
   origin: "*",

@@ -57,6 +57,9 @@ profile*
 *clinic*
 *flamegraph*
 
+# SSL
+/certificates
+
 #Others
 /dist
 *.js.map
