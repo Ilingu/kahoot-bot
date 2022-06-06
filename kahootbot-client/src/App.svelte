@@ -23,7 +23,7 @@
     )
       return PushToast("Please Fill the fields", "error", 5000);
 
-    const req = await fetch(`http://139.162.138.207:3000/newgame/${GameID}`, {
+    const req = await fetch(`https://139.162.138.207:3000/newgame/${GameID}`, {
       body: JSON.stringify({ username }),
       method: "POST",
     });

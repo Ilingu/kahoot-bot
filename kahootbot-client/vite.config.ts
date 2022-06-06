@@ -8,32 +8,33 @@ const manifest = {
   description: "A simple Kahoot Bot that answer randomly",
   icons: [
     {
-      src: "favicon.ico",
+      src: "/IMG/favicon.ico",
       sizes: "32x32",
       type: "image/x-icon",
     },
     {
-      src: "logo-kahootbot-128.png",
+      src: "/IMG/logo-kahootbot-128.png",
       sizes: "128x128",
       type: "image/png",
     },
     {
-      src: "logo-kahootbot-192.png",
+      src: "/IMG/logo-kahootbot-192.png",
       sizes: "192x192",
       type: "image/png",
     },
     {
-      src: "logo-kahootbot-192.png",
+      src: "/IMG/logo-kahootbot-192.png",
       sizes: "192x192",
       type: "image/png",
       purpose: "maskable",
     },
     {
-      src: "logo-kahootbot-512.png",
+      src: "/IMG/logo-kahootbot-512.png",
       sizes: "512x512",
       type: "image/png",
     },
   ],
+  id: "/",
   background_color: "#18181b",
   theme_color: "#a855f7",
 };

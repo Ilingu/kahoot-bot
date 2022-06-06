@@ -61,3 +61,4 @@ profile*
 /dist
 *.js.map
 /troubleshooting.md
+/HowToSSL.md
