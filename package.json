@@ -1,7 +1,7 @@
 {
   "name": "kahootbot",
   "private": true,
-  "version": "2.0.0-beta",
+  "version": "1.0.0-beta.3",
   "description": "A simple Kahoot Bot that answer randomly",
   "author": "Ilingu",
   "license": "MIT",

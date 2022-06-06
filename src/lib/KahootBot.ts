@@ -66,8 +66,14 @@ const WatchDogGame = (
         } catch (err) {}
 
         logBot(`[LOG]: Answer Chose...  ${page.url()}`, GameID);
+        if (page.url() === KahootStep.ANSWER_CHOOSE) {
+          log(`[LOG]: Wait /sent...  ${page.url()}`);
+          await page.waitForNavigation({ timeout: 5000 }); // If not already in: wait for "/answer/sent" (5s max)
+          log(`[INFO]: ${page.url()}`);
+        }
+
         if (page.url() !== KahootStep.ANSWER_RESULT) {
-          logBot("[LOG]: Waiting for Result...", GameID);
+          logBot(`[LOG]: Waiting for Result... ${page.url()}`, GameID);
           await page.waitForNavigation({ timeout: 60_100 }); // Wait for "/answer/result" (1min)
           if (page.url() !== KahootStep.ANSWER_RESULT)
             return res({ success: false });

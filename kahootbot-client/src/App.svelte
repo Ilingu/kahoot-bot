@@ -23,11 +23,10 @@
     )
       return PushToast("Please Fill the fields", "error", 5000);
 
-    const DEV = import.meta.env.DEV;
-    const req = await fetch(
-      DEV ? `http://localhost:3000/newgame/${GameID}` : "",
-      { body: JSON.stringify({ username }), method: "POST" }
-    );
+    const req = await fetch(`http://139.162.138.207:3000/newgame/${GameID}`, {
+      body: JSON.stringify({ username }),
+      method: "POST",
+    });
 
     if (!req.ok)
       return PushToast("Error when trying to access the server", "error", 4500);

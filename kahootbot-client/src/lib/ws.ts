@@ -2,7 +2,7 @@ import { io } from "socket.io-client";
 import { PushToast } from "./utils";
 
 export const LauchWSClient = (GameID: string) => {
-  const socket = io("http://localhost:8080", {
+  const socket = io(`http://139.162.138.207:8080`, {
     reconnectionDelayMax: 10000,
   });
 
