@@ -32,7 +32,10 @@ const server = fastify({
 // KEY: /etc/letsencrypt/live/kahootbot.xyz/privkey.pem
 
 server.register(cors, {
-  origin: "https://kahootbot-client.vercel.app",
+  origin: [
+    "https://client.kahootbot.xyz",
+    "https://kahootbot-client.vercel.app",
+  ],
   methods: ["GET", "POST"],
 }); // cors
 server.register(RoutesHandler); // Routes
@@ -51,7 +54,12 @@ const HttpsServer = createServer(HTTPS_OPTIONS).listen(WS_PORT, () => {
   log(`WebSocket Server listening at port ${WS_PORT}`);
 });
 const io = new Server(HttpsServer, {
-  cors: { origin: "https://kahootbot-client.vercel.app" },
+  cors: {
+    origin: [
+      "https://client.kahootbot.xyz",
+      "https://kahootbot-client.vercel.app",
+    ],
+  },
 });
 
 io.on("connection", NewWSConn);
